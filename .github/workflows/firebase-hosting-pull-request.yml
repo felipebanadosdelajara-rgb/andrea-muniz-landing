@@ -1,0 +1,31 @@
+name: Preview Firebase Hosting (PR)
+
+# Se dispara en cada pull request → deploy a un canal de preview temporal
+# Con URL única por PR, caduca sola a los 7 días
+on: pull_request
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  build_and_preview:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync source → public
+        run: |
+          if [ -f Andrea_Muniz_Completo_v2.html ]; then
+            cp Andrea_Muniz_Completo_v2.html public/index.html
+          fi
+
+      - name: Deploy preview to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANDREA_MUNIZ_LANDING }}
+          projectId: andrea-muniz-landing
+          expires: 7d

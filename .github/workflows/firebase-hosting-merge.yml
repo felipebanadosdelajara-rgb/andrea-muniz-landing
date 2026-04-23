@@ -1,0 +1,28 @@
+name: Deploy a Firebase Hosting (main)
+
+# Se dispara en cada push a main → deploy automático al canal live
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Sincroniza public/index.html desde el archivo fuente si fue modificado
+      # (soporta tanto edición directa en public/ como edición del archivo fuente raíz)
+      - name: Sync source → public
+        run: |
+          if [ -f Andrea_Muniz_Completo_v2.html ]; then
+            cp Andrea_Muniz_Completo_v2.html public/index.html
+          fi
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANDREA_MUNIZ_LANDING }}
+          channelId: live
+          projectId: andrea-muniz-landing
