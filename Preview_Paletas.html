@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview Paletas · Andrea Muñiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#EDEAE2; color:#222; padding:40px 24px; line-height:1.6; }
+    h1 { font-family:'Playfair Display',serif; font-size:2.2rem; max-width:1100px; margin:0 auto 8px; }
+    .subtitle { max-width:1100px; margin:0 auto 40px; color:#555; font-size:.95rem; }
+
+    /* Contenedor variante */
+    .variant {
+      max-width:1100px; margin:0 auto 60px;
+      border-radius:20px; overflow:hidden;
+      box-shadow:0 10px 40px rgba(0,0,0,.12);
+    }
+    .variant-header {
+      padding:22px 28px; background:#1A1A1A; color:#fff;
+      display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px;
+    }
+    .variant-header h2 {
+      font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700;
+    }
+    .variant-header p {
+      font-size:.82rem; color:rgba(255,255,255,.65); max-width:640px;
+    }
+
+    /* Color swatches */
+    .swatches {
+      display:flex; padding:16px 28px; gap:0; background:#2A2A2A;
+      overflow-x:auto;
+    }
+    .swatch {
+      flex:1 1 auto; min-width:90px; height:60px;
+      display:flex; flex-direction:column; justify-content:flex-end;
+      padding:8px 10px; font-size:.64rem; font-weight:600;
+      text-transform:uppercase; letter-spacing:.05em;
+    }
+    .swatch small { font-size:.62rem; opacity:.8; font-weight:500; margin-top:2px; text-transform:none; letter-spacing:0; font-family:'Courier New',monospace; }
+
+    /* Demo area (usa las vars de la variante) */
+    .demo {
+      padding:48px 40px; background:var(--bg-main); color:var(--text-dark);
+      font-family:'Inter',sans-serif;
+    }
+    .demo h3, .demo h4 { font-family:'Playfair Display',serif; line-height:1.2; color:var(--text-dark); }
+
+    /* Mini hero */
+    .mini-hero {
+      display:grid; grid-template-columns:1.2fr .8fr; gap:40px; align-items:center;
+      margin-bottom:40px;
+    }
+    @media(max-width:720px){ .mini-hero { grid-template-columns:1fr; } }
+    .eyebrow {
+      font-size:.68rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase;
+      color:var(--ink-deep); display:flex; align-items:center; gap:10px; margin-bottom:14px;
+    }
+    .eyebrow::before { content:''; width:24px; height:1.5px; background:currentColor; }
+    .mini-hero h3 {
+      font-size:2.2rem; font-weight:700; line-height:1.15; margin-bottom:14px;
+      color:var(--text-dark);
+    }
+    .mini-hero h3 em { font-style:italic; color:var(--ochre-warm); font-weight:700; }
+    .mini-hero p {
+      color:var(--text-mid); font-size:.95rem; line-height:1.75;
+      margin-bottom:24px; max-width:420px;
+    }
+    .btn-row { display:flex; gap:12px; flex-wrap:wrap; }
+    .btn {
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.75rem 1.7rem; border-radius:9999px; border:none; cursor:pointer;
+      font-family:'Inter',sans-serif; font-size:.88rem; font-weight:600; text-decoration:none;
+      transition:all .2s ease;
+    }
+    .btn-primary { background:var(--ink-deep); color:#fff; }
+    .btn-primary:hover { filter:brightness(1.1); }
+    .btn-secondary { background:transparent; color:var(--ochre-warm); border:1.5px solid var(--ochre-warm); }
+    .btn-ghost { background:transparent; color:var(--text-dark); border:1.5px solid var(--earth-soft); }
+
+    .mini-visual {
+      aspect-ratio:3/4; max-height:300px; border-radius:20px 4px 20px 4px;
+      background:linear-gradient(160deg, var(--ochre-soft) 0%, var(--ink-pale) 55%, var(--teal-soft) 100%);
+      position:relative; overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .mini-visual::before {
+      content:''; position:absolute;
+      width:140px; height:140px; border-radius:55% 45% 60% 40%;
+      background:rgba(255,255,255,.3); top:15%; right:12%;
+    }
+    .mini-visual::after {
+      content:''; position:absolute;
+      width:100px; height:100px; border-radius:40% 60% 50% 50%;
+      background:rgba(255,255,255,.2); bottom:10%; left:10%;
+    }
+    .mini-visual span {
+      position:relative; z-index:2;
+      font-family:'Playfair Display',serif; font-style:italic;
+      color:#fff; font-size:1.3rem; text-shadow:0 2px 8px rgba(0,0,0,.2);
+    }
+
+    /* Service cards */
+    .cards-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:40px;
+    }
+    @media(max-width:720px){ .cards-grid { grid-template-columns:1fr; } }
+    .card {
+      padding:24px 22px; border-radius:16px;
+      position:relative; overflow:hidden;
+    }
+    .card .num {
+      font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700;
+      opacity:.15; line-height:1; margin-bottom:6px;
+    }
+    .card h4 { font-size:1.1rem; font-weight:600; margin-bottom:8px; }
+    .card p { font-size:.82rem; color:var(--text-mid); line-height:1.6; margin-bottom:14px; }
+    .card .price { font-size:.78rem; font-weight:600; }
+    .card .link { font-size:.78rem; font-weight:600; text-decoration:none; display:inline-block; }
+
+    .card-ochre { background:var(--ochre-pale); }
+    .card-ochre h4 { color:var(--ochre-warm); }
+    .card-ochre .price { color:var(--ochre-warm); }
+    .card-ochre .link { color:var(--ochre-warm); }
+    .card-ink { background:var(--ink-pale); }
+    .card-ink h4 { color:var(--ink-deep); }
+    .card-ink .price { color:var(--ink-deep); }
+    .card-ink .link { color:var(--ink-deep); }
+    .card-teal { background:var(--teal-pale); }
+    .card-teal h4 { color:var(--teal-deep); }
+    .card-teal .price { color:var(--teal-deep); }
+    .card-teal .link { color:var(--teal-deep); }
+
+    /* Badges */
+    .badges-row {
+      display:flex; flex-wrap:wrap; gap:10px; margin-bottom:32px;
+      padding:18px 20px; background:var(--bg-card); border:1.5px solid var(--earth-soft);
+      border-radius:14px;
+    }
+    .pill {
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:.76rem; font-weight:500; padding:5px 12px;
+      border-radius:9999px; border:1.5px solid;
+    }
+    .pill-ink  { color:var(--ink-deep); border-color:var(--ink-soft); background:var(--ink-pale); }
+    .pill-ochre{ color:var(--ochre-warm); border-color:var(--ochre-soft); background:var(--ochre-pale); }
+    .pill-teal { color:var(--teal-deep); border-color:var(--teal-soft); background:var(--teal-pale); }
+    .pill-coral{ color:var(--coral); border-color:var(--coral); background:var(--coral-pale); }
+
+    /* Footer dark (para ver el texto-dark como fondo) */
+    .mini-footer {
+      margin-top:28px; padding:28px; border-radius:12px;
+      background:var(--text-dark); color:#fff;
+      display:flex; justify-content:space-between; align-items:center;
+      flex-wrap:wrap; gap:16px;
+    }
+    .mini-footer .brand { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; }
+    .mini-footer .quote { font-family:'Playfair Display',serif; font-style:italic; color:var(--ochre-mid); font-size:.88rem; }
+
+    /* ══════════════════════════════
+       VARIANTE A · MANUSCRITO FIEL
+       Colores directos del libro, contrastados
+       ══════════════════════════════ */
+    .var-a {
+      --ink-deep:   #243461;
+      --ink-mid:    #4A5D8F;
+      --ink-soft:   #9DACCB;
+      --ink-pale:   #E4E8F3;
+      --ochre-warm: #C99535;
+      --ochre-mid:  #D9B26A;
+      --ochre-soft: #E8D5A8;
+      --ochre-pale: #F3E9D0;
+      --teal-deep:  #2E5D5A;
+      --teal-mid:   #5A8583;
+      --teal-soft:  #A8C4C3;
+      --teal-pale:  #D8E6E5;
+      --bg-main:    #F8F2E0;
+      --bg-alt:     #EEE4CA;
+      --bg-card:    #FDF9ED;
+      --text-dark:  #1C2340;
+      --text-mid:   #54617A;
+      --text-soft:  #8A93A3;
+      --earth-soft: #DDD5BE;
+      --coral:      #C94F4A;
+      --coral-pale: #FBE3DF;
+    }
+
+    /* ══════════════════════════════
+       VARIANTE B · MANUSCRITO SOBRIO
+       Mismos hues, más desaturados, lectura de adulto
+       ══════════════════════════════ */
+    .var-b {
+      --ink-deep:   #3A4865;
+      --ink-mid:    #5D6A87;
+      --ink-soft:   #A9B2C4;
+      --ink-pale:   #E8EAF0;
+      --ochre-warm: #B5884A;
+      --ochre-mid:  #C9A571;
+      --ochre-soft: #DDC9A8;
+      --ochre-pale: #EEE3CD;
+      --teal-deep:  #4A6D6B;
+      --teal-mid:   #7A9492;
+      --teal-soft:  #B5C7C5;
+      --teal-pale:  #DEE7E5;
+      --bg-main:    #F4EFE3;
+      --bg-alt:     #E8E0CE;
+      --bg-card:    #FBF7EC;
+      --text-dark:  #2B2F3E;
+      --text-mid:   #5A5F6E;
+      --text-soft:  #8E93A0;
+      --earth-soft: #D9D1BD;
+      --coral:      #B9554E;
+      --coral-pale: #F6E2DE;
+    }
+
+    /* ══════════════════════════════
+       VARIANTE C · MANUSCRITO CÁLIDO
+       Dominancia de cremas, 2 acentos fuertes + coral como tensión única
+       ══════════════════════════════ */
+    .var-c {
+      --ink-deep:   #2A3554;
+      --ink-mid:    #4E5875;
+      --ink-soft:   #A5ADC0;
+      --ink-pale:   #E3E6EE;
+      --ochre-warm: #D9A43C;
+      --ochre-mid:  #E8BE65;
+      --ochre-soft: #EFD9A6;
+      --ochre-pale: #F5EAD1;
+      /* Teal casi neutro (apenas azulado-gris) */
+      --teal-deep:  #5F6E70;
+      --teal-mid:   #87908F;
+      --teal-soft:  #C0C5C4;
+      --teal-pale:  #E5E8E6;
+      --bg-main:    #FBF5E4;
+      --bg-alt:     #F1E7CC;
+      --bg-card:    #FFFBEE;
+      --text-dark:  #1C2340;
+      --text-mid:   #505A73;
+      --text-soft:  #8A92A3;
+      --earth-soft: #E0D6BC;
+      --coral:      #CC5249;
+      --coral-pale: #FBE2DD;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Preview · 3 variantes de paleta</h1>
+  <p class="subtitle">
+    Extracción de la portada del libro «Papá cuéntame de ti». Cada variante usa exactamente el mismo layout y tipografías que la landing actual —
+    solo cambian los valores de las variables CSS. Compara las tres y decide por cuál seguir.
+  </p>
+
+  <!-- ══════════ VARIANTE A · FIEL ══════════ -->
+  <section class="variant var-a">
+    <div class="variant-header">
+      <div>
+        <h2>Variante A · Manuscrito Fiel</h2>
+        <p>Colores extraídos directo del libro. Contraste alto, personalidad editorial marcada. Sensación de librería independiente.</p>
+      </div>
+      <div style="font-family:'Courier New',monospace;font-size:.78rem;color:rgba(255,255,255,.45)">HIGH CONTRAST</div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#243461;color:#fff">Ink Deep<small>#243461</small></div>
+      <div class="swatch" style="background:#4A5D8F;color:#fff">Ink Mid<small>#4A5D8F</small></div>
+      <div class="swatch" style="background:#C99535;color:#fff">Ochre<small>#C99535</small></div>
+      <div class="swatch" style="background:#2E5D5A;color:#fff">Teal Deep<small>#2E5D5A</small></div>
+      <div class="swatch" style="background:#F8F2E0;color:#1C2340">Crema<small>#F8F2E0</small></div>
+      <div class="swatch" style="background:#C94F4A;color:#fff">Coral<small>#C94F4A</small></div>
+      <div class="swatch" style="background:#1C2340;color:#fff">Text<small>#1C2340</small></div>
+    </div>
+    <div class="demo">
+      <div class="mini-hero">
+        <div>
+          <div class="eyebrow">Artista · Creadora · Coach</div>
+          <h3>El arte sana.<br>El coaching transforma.<br><em>La mezcla de ambos es única.</em></h3>
+          <p>Combino años de experiencia en artes visuales con el acompañamiento de coaching para reconectar con lo que te mueve.</p>
+          <div class="btn-row">
+            <a href="#" class="btn btn-primary">Conóceme →</a>
+            <a href="#" class="btn btn-ghost">Cómo te acompaño</a>
+          </div>
+        </div>
+        <div class="mini-visual">
+          <span>Creatividad ∞ Coaching</span>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card card-ochre">
+          <div class="num">01</div>
+          <h4>Taller de Masa de Aserrín</h4>
+          <p>Espacio íntimo en la casa taller. Creamos con las manos, con calma.</p>
+          <div class="price">$80.000 / mes</div>
+        </div>
+        <div class="card card-ink">
+          <div class="num">02</div>
+          <h4>Sesiones de Coaching</h4>
+          <p>Sesiones individuales online de 40 minutos para escucharte.</p>
+          <div class="price">$15.000 / sesión</div>
+        </div>
+        <div class="card card-teal">
+          <div class="num">03</div>
+          <h4>Workshop Vivencial</h4>
+          <p>Jornadas de arte + coaching en grupo pequeño. Presencial Santiago.</p>
+          <div class="price">Próximo lanzamiento</div>
+        </div>
+      </div>
+
+      <div class="badges-row">
+        <span class="pill pill-ink">Navy marca principal</span>
+        <span class="pill pill-ochre">Ocre · Casa Taller</span>
+        <span class="pill pill-teal">Teal · Workshops</span>
+        <span class="pill pill-coral">Coral · Cupos limitados</span>
+      </div>
+
+      <div class="mini-footer">
+        <div class="brand">Andrea Muñiz Berguecio</div>
+        <div class="quote">"El arte sana. El coaching transforma."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ VARIANTE B · SOBRIO ══════════ -->
+  <section class="variant var-b">
+    <div class="variant-header">
+      <div>
+        <h2>Variante B · Manuscrito Sobrio</h2>
+        <p>Mismos hues que el libro pero con saturación reducida. Más adulto, más "lectora de revista cultural". Menos llamativo, más durable en el tiempo.</p>
+      </div>
+      <div style="font-family:'Courier New',monospace;font-size:.78rem;color:rgba(255,255,255,.45)">MUTED EDITORIAL</div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#3A4865;color:#fff">Ink Deep<small>#3A4865</small></div>
+      <div class="swatch" style="background:#5D6A87;color:#fff">Ink Mid<small>#5D6A87</small></div>
+      <div class="swatch" style="background:#B5884A;color:#fff">Ochre<small>#B5884A</small></div>
+      <div class="swatch" style="background:#4A6D6B;color:#fff">Teal Deep<small>#4A6D6B</small></div>
+      <div class="swatch" style="background:#F4EFE3;color:#2B2F3E">Crema<small>#F4EFE3</small></div>
+      <div class="swatch" style="background:#B9554E;color:#fff">Coral<small>#B9554E</small></div>
+      <div class="swatch" style="background:#2B2F3E;color:#fff">Text<small>#2B2F3E</small></div>
+    </div>
+    <div class="demo">
+      <div class="mini-hero">
+        <div>
+          <div class="eyebrow">Artista · Creadora · Coach</div>
+          <h3>El arte sana.<br>El coaching transforma.<br><em>La mezcla de ambos es única.</em></h3>
+          <p>Combino años de experiencia en artes visuales con el acompañamiento de coaching para reconectar con lo que te mueve.</p>
+          <div class="btn-row">
+            <a href="#" class="btn btn-primary">Conóceme →</a>
+            <a href="#" class="btn btn-ghost">Cómo te acompaño</a>
+          </div>
+        </div>
+        <div class="mini-visual">
+          <span>Creatividad ∞ Coaching</span>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card card-ochre">
+          <div class="num">01</div>
+          <h4>Taller de Masa de Aserrín</h4>
+          <p>Espacio íntimo en la casa taller. Creamos con las manos, con calma.</p>
+          <div class="price">$80.000 / mes</div>
+        </div>
+        <div class="card card-ink">
+          <div class="num">02</div>
+          <h4>Sesiones de Coaching</h4>
+          <p>Sesiones individuales online de 40 minutos para escucharte.</p>
+          <div class="price">$15.000 / sesión</div>
+        </div>
+        <div class="card card-teal">
+          <div class="num">03</div>
+          <h4>Workshop Vivencial</h4>
+          <p>Jornadas de arte + coaching en grupo pequeño. Presencial Santiago.</p>
+          <div class="price">Próximo lanzamiento</div>
+        </div>
+      </div>
+
+      <div class="badges-row">
+        <span class="pill pill-ink">Navy marca principal</span>
+        <span class="pill pill-ochre">Ocre · Casa Taller</span>
+        <span class="pill pill-teal">Teal · Workshops</span>
+        <span class="pill pill-coral">Coral · Cupos limitados</span>
+      </div>
+
+      <div class="mini-footer">
+        <div class="brand">Andrea Muñiz Berguecio</div>
+        <div class="quote">"El arte sana. El coaching transforma."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ VARIANTE C · CÁLIDO ══════════ -->
+  <section class="variant var-c">
+    <div class="variant-header">
+      <div>
+        <h2>Variante C · Manuscrito Cálido</h2>
+        <p>El crema es el protagonista. Navy + ocre fuertes como únicos acentos activos. El teal baja a gris-verdoso neutro. Coral sólo como tensión puntual. Sensación de papel, cuaderno, manuscrito personal.</p>
+      </div>
+      <div style="font-family:'Courier New',monospace;font-size:.78rem;color:rgba(255,255,255,.45)">CREAM FORWARD</div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#2A3554;color:#fff">Ink Deep<small>#2A3554</small></div>
+      <div class="swatch" style="background:#4E5875;color:#fff">Ink Mid<small>#4E5875</small></div>
+      <div class="swatch" style="background:#D9A43C;color:#fff">Ochre<small>#D9A43C</small></div>
+      <div class="swatch" style="background:#5F6E70;color:#fff">Teal neutro<small>#5F6E70</small></div>
+      <div class="swatch" style="background:#FBF5E4;color:#1C2340">Crema<small>#FBF5E4</small></div>
+      <div class="swatch" style="background:#CC5249;color:#fff">Coral<small>#CC5249</small></div>
+      <div class="swatch" style="background:#1C2340;color:#fff">Text<small>#1C2340</small></div>
+    </div>
+    <div class="demo">
+      <div class="mini-hero">
+        <div>
+          <div class="eyebrow">Artista · Creadora · Coach</div>
+          <h3>El arte sana.<br>El coaching transforma.<br><em>La mezcla de ambos es única.</em></h3>
+          <p>Combino años de experiencia en artes visuales con el acompañamiento de coaching para reconectar con lo que te mueve.</p>
+          <div class="btn-row">
+            <a href="#" class="btn btn-primary">Conóceme →</a>
+            <a href="#" class="btn btn-ghost">Cómo te acompaño</a>
+          </div>
+        </div>
+        <div class="mini-visual">
+          <span>Creatividad ∞ Coaching</span>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card card-ochre">
+          <div class="num">01</div>
+          <h4>Taller de Masa de Aserrín</h4>
+          <p>Espacio íntimo en la casa taller. Creamos con las manos, con calma.</p>
+          <div class="price">$80.000 / mes</div>
+        </div>
+        <div class="card card-ink">
+          <div class="num">02</div>
+          <h4>Sesiones de Coaching</h4>
+          <p>Sesiones individuales online de 40 minutos para escucharte.</p>
+          <div class="price">$15.000 / sesión</div>
+        </div>
+        <div class="card card-teal">
+          <div class="num">03</div>
+          <h4>Workshop Vivencial</h4>
+          <p>Jornadas de arte + coaching en grupo pequeño. Presencial Santiago.</p>
+          <div class="price">Próximo lanzamiento</div>
+        </div>
+      </div>
+
+      <div class="badges-row">
+        <span class="pill pill-ink">Navy marca principal</span>
+        <span class="pill pill-ochre">Ocre · Casa Taller</span>
+        <span class="pill pill-teal">Gris-teal · Workshops</span>
+        <span class="pill pill-coral">Coral · Cupos limitados</span>
+      </div>
+
+      <div class="mini-footer">
+        <div class="brand">Andrea Muñiz Berguecio</div>
+        <div class="quote">"El arte sana. El coaching transforma."</div>
+      </div>
+    </div>
+  </section>
+
+  <p class="subtitle" style="margin-top:20px;text-align:center;font-size:.88rem">
+    Una vez elijas A, B o C, aplico la paleta completa al <strong>Andrea_Muniz_Completo_v2.html</strong> (incluye las 2 subpáginas Base64). Toma 15 min y es reversible.
+  </p>
+
+</body>
+</html>

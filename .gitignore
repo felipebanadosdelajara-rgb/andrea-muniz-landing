@@ -1,0 +1,52 @@
+# Archivos temporales de trabajo
+_tmp/
+*.BACKUP*.html
+Andrea_Muniz_Completo_v2_BACKUP_pre_varC.html
+
+# Versiones antiguas del HTML (previas a v2)
+Andrea_Muniz_Completo.html
+Andrea_Muniz_Landing.html
+Postulacion_CasaTaller.html
+Inscripcion_Workshop.html
+Roadmap_Andrea_Muniz.html
+Andrea_Muniz_Preview.zip
+
+# Documentos internos (no forman parte del deploy ni del repo público)
+Roadmap_90dias_Andrea_Muniz.docx
+Cronograma_Efiktia_AndreaMuniz.xlsx
+Diagnostico_Efiktia_AndreaMuniz.xlsx
+
+# Assets fuente pesados (ya embebidos en base64 dentro del HTML)
+MATERIAL\ PRESENTACION\ ANDREA/
+OTROS\ DOCS\ YO\ TE\ ESCUCHO/
+WEB\ YOTEESCUCHO/
+Casa\ Taller.jpeg
+andrea_cover.jpg
+andrea_hero.jpg
+
+# Configuración local con secretos
+update-placeholders.config
+
+# Firebase
+.firebase/
+*.log
+firebase-debug.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Claude Code session data
+.claude/
+
+# Fuentes de imagen (ya embebidas en base64 dentro del HTML)
+Imagen\ Portada\ Andrea.jpeg
+
+# Node
+node_modules/
