@@ -23,7 +23,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.resolve()
 SOURCE = ROOT / "Andrea_Muniz_Completo_v2.html"
-OUTPUT = ROOT / "index.html"
+OUTPUT = ROOT / "public" / "index.html"  # destino final (listo para firebase deploy)
 CONFIG = ROOT / "update-placeholders.config"
 
 CONFIG_TEMPLATE = """# Configuración de placeholders · Andrea Muñiz landing
