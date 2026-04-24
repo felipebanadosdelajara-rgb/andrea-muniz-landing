@@ -579,6 +579,40 @@
     }
     .tes-desc { font-size:.86rem; color:var(--text-mid); line-height:1.65; }
 
+    /* P3-light: detalle colapsable nativo (HTML5 <details>) — reduce scroll en mobile */
+    .taller-detail { margin-top:24px; }
+    .taller-detail > summary {
+      list-style:none; /* Firefox hide default marker */
+      cursor:pointer;
+      padding:14px 20px;
+      background:var(--earth-pale);
+      border:1px solid var(--earth-soft);
+      border-radius:var(--radius-md);
+      font-family:'Playfair Display',serif;
+      font-size:1.05rem;
+      font-weight:600;
+      color:var(--earth-warm);
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      transition:background var(--dur-base) cubic-bezier(.4,0,.2,1);
+      user-select:none;
+    }
+    .taller-detail > summary::-webkit-details-marker { display:none; } /* Safari/Chrome hide default marker */
+    .taller-detail > summary::after {
+      content:'';
+      width:9px; height:9px;
+      border-right:1.5px solid currentColor;
+      border-bottom:1.5px solid currentColor;
+      transform:rotate(45deg);
+      transition:transform var(--dur-base) cubic-bezier(.4,0,.2,1);
+      margin-left:2px; margin-bottom:4px;
+    }
+    .taller-detail[open] > summary::after { transform:rotate(-135deg); margin-bottom:0; margin-top:4px; }
+    .taller-detail > summary:hover { background:var(--earth-soft); }
+    .taller-detail > summary:focus-visible { outline:2px solid var(--earth-warm); outline-offset:2px; }
+    .taller-detail[open] > summary { margin-bottom:16px; }
+
     /* MEJORA: quote tipográfica editorial con comilla decorativa "grande" */
     .taller-quote {
       position:relative; background:var(--earth-pale);
@@ -1299,9 +1333,9 @@
             Taller activo desde 2024
           </div>
         </div>
-        <!-- Experiencia del taller -->
-        <div class="taller-experiencia reveal d1" style="margin-top:24px">
-          <h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:16px;color:var(--text-dark)">Una jornada en el taller</h4>
+        <!-- Experiencia del taller (colapsado por default — P3-light) -->
+        <details class="taller-detail reveal d1">
+          <summary>Una jornada en el taller</summary>
           <div class="taller-exp-steps">
             <div class="taller-exp-step">
               <div class="tes-hora">11:00</div>
@@ -1324,7 +1358,7 @@
               <div class="tes-desc">Término del taller.</div>
             </div>
           </div>
-        </div>
+        </details>
 
         <!-- Testimonio -->
         <div class="taller-quote reveal d2" style="margin-top:24px">
