@@ -579,27 +579,26 @@
     }
     .tes-desc { font-size:.86rem; color:var(--text-mid); line-height:1.65; }
 
-    /* P3-light: detalle colapsable nativo (HTML5 <details>) — reduce scroll en mobile */
-    .taller-detail { margin-top:24px; }
-    .taller-detail > summary {
+    /* P3-light: detalle colapsable nativo (HTML5 <details>) — reduce scroll en mobile.
+       Uso: <details class="detail-toggle earth|sage|lava"><summary>...</summary>...</details> */
+    .detail-toggle { margin-top:24px; }
+    .detail-toggle > summary {
       list-style:none; /* Firefox hide default marker */
       cursor:pointer;
       padding:14px 20px;
-      background:var(--earth-pale);
-      border:1px solid var(--earth-soft);
+      border:1px solid;
       border-radius:var(--radius-md);
       font-family:'Playfair Display',serif;
       font-size:1.05rem;
       font-weight:600;
-      color:var(--earth-warm);
       display:inline-flex;
       align-items:center;
       gap:12px;
       transition:background var(--dur-base) cubic-bezier(.4,0,.2,1);
       user-select:none;
     }
-    .taller-detail > summary::-webkit-details-marker { display:none; } /* Safari/Chrome hide default marker */
-    .taller-detail > summary::after {
+    .detail-toggle > summary::-webkit-details-marker { display:none; } /* Safari/Chrome hide default marker */
+    .detail-toggle > summary::after {
       content:'';
       width:9px; height:9px;
       border-right:1.5px solid currentColor;
@@ -608,10 +607,21 @@
       transition:transform var(--dur-base) cubic-bezier(.4,0,.2,1);
       margin-left:2px; margin-bottom:4px;
     }
-    .taller-detail[open] > summary::after { transform:rotate(-135deg); margin-bottom:0; margin-top:4px; }
-    .taller-detail > summary:hover { background:var(--earth-soft); }
-    .taller-detail > summary:focus-visible { outline:2px solid var(--earth-warm); outline-offset:2px; }
-    .taller-detail[open] > summary { margin-bottom:16px; }
+    .detail-toggle[open] > summary::after { transform:rotate(-135deg); margin-bottom:0; margin-top:4px; }
+    .detail-toggle[open] > summary { margin-bottom:16px; }
+
+    /* Variantes por paleta (coherentes con la sección padre) */
+    .detail-toggle.earth > summary { background:var(--earth-pale); border-color:var(--earth-soft); color:var(--earth-warm); }
+    .detail-toggle.earth > summary:hover { background:var(--earth-soft); }
+    .detail-toggle.earth > summary:focus-visible { outline:2px solid var(--earth-warm); outline-offset:2px; }
+
+    .detail-toggle.sage > summary { background:var(--sage-pale); border-color:var(--sage-soft); color:var(--sage-deep); }
+    .detail-toggle.sage > summary:hover { background:var(--sage-soft); color:#fff; }
+    .detail-toggle.sage > summary:focus-visible { outline:2px solid var(--sage-deep); outline-offset:2px; }
+
+    .detail-toggle.lava > summary { background:var(--lava-pale); border-color:var(--lava-soft); color:var(--lava-deep); }
+    .detail-toggle.lava > summary:hover { background:var(--lava-soft); color:#fff; }
+    .detail-toggle.lava > summary:focus-visible { outline:2px solid var(--lava-deep); outline-offset:2px; }
 
     /* MEJORA: quote tipográfica editorial con comilla decorativa "grande" */
     .taller-quote {
@@ -638,6 +648,13 @@
       border-radius:var(--radius-lg); padding:20px 22px;
       display:flex; align-items:center; justify-content:space-between;
       gap:16px; flex-wrap:wrap;
+    }
+    /* Mobile: apilar info + botones en columna y estirar los botones a 100% ancho
+       (fix feedback: el botón WhatsApp se salía por la derecha en <420px) */
+    @media(max-width:520px) {
+      .taller-cta-box { flex-direction:column; align-items:stretch; }
+      .taller-cta-box > div:last-child { width:100%; }
+      .taller-cta-box > div:last-child > a.btn { flex:1 1 100%; justify-content:center; }
     }
 
     .taller-process {
@@ -1334,7 +1351,7 @@
           </div>
         </div>
         <!-- Experiencia del taller (colapsado por default — P3-light) -->
-        <details class="taller-detail reveal d1">
+        <details class="detail-toggle earth reveal d1">
           <summary>Una jornada en el taller</summary>
           <div class="taller-exp-steps">
             <div class="taller-exp-step">
@@ -1420,8 +1437,10 @@
         </div>
       </div>
 
-      <!-- MEJORA: tabla comparativa de formatos (complementa las tarjetas) -->
-      <div class="coaching-compare reveal d4" role="region" aria-label="Comparativa de sesiones de coaching">
+      <!-- Tabla comparativa de formatos (colapsada por default — P3-light) -->
+      <details class="detail-toggle sage reveal d4" style="margin:32px auto 0">
+        <summary>Ver los 3 formatos en detalle</summary>
+        <div class="coaching-compare" role="region" aria-label="Comparativa de sesiones de coaching">
         <table>
           <thead>
             <tr>
@@ -1473,7 +1492,8 @@
             </tr>
           </tbody>
         </table>
-      </div>
+        </div>
+      </details>
 
       <!-- MEJORA: primera sesión gratis + proceso de 4 sesiones -->
       <div class="coaching-price-row reveal d4" id="agenda">
@@ -1559,6 +1579,9 @@
         </div>
       </article>
 
+      <!-- Workshops sin fecha confirmada (colapsados por default — P3-light) -->
+      <details class="detail-toggle lava" style="margin-top:24px">
+        <summary>Ver próximas fechas</summary>
       <article class="ws-card ws-card-soon">
         <div class="ws-card-header">
           <span class="ws-badge ws-badge-soon">
@@ -1593,6 +1616,7 @@
           </div>
         </div>
       </article>
+      </details>
 
     </div>
 
