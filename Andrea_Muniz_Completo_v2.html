@@ -366,26 +366,26 @@
     }
     .hero h1 { margin-bottom:20px; }
     .hero h1 strong { color:var(--earth-warm); font-style:italic; font-weight:700; }
-    /* Hero services — 3 tarjetas con gancho que reemplazan subtítulo + CTAs genéricos.
-       Cada card es el CTA (Coaching → Calendly, Taller → #taller, Workshop → #workshop). */
-    .hero-services { display:flex; flex-direction:column; gap:12px; max-width:460px; margin-top:36px; }
+    /* Hero services — lista editorial (no "cajas" rectangulares).
+       Icono sin caja de fondo + texto, separados por hairline. Hover pinta
+       subtle el bg del color del servicio + slide de padding-left. */
+    .hero-services { display:flex; flex-direction:column; gap:0; max-width:460px; margin-top:20px; }
     .hero-svc {
-      display:flex; align-items:center; gap:16px;
-      padding:16px 20px; border:1px solid;
-      border-radius:var(--radius-md);
-      text-decoration:none; background:var(--bg-card);
-      transition:transform var(--dur-base) cubic-bezier(.4,0,.2,1),
-                 background var(--dur-base) cubic-bezier(.4,0,.2,1),
-                 border-color var(--dur-base) cubic-bezier(.4,0,.2,1),
-                 box-shadow var(--dur-base) cubic-bezier(.4,0,.2,1);
+      display:flex; align-items:center; gap:18px;
+      padding:16px 4px;
+      border-bottom:1px solid var(--sage-pale);
+      text-decoration:none;
+      transition:padding-left var(--dur-base) cubic-bezier(.4,0,.2,1),
+                 background var(--dur-base) cubic-bezier(.4,0,.2,1);
     }
-    .hero-svc:hover { transform:translateY(-1px); box-shadow:var(--shadow-md); }
-    .hero-svc:focus-visible { outline:2px solid currentColor; outline-offset:2px; }
+    .hero-svc:last-child { border-bottom:none; }
+    .hero-svc:hover { padding-left:12px; }
+    .hero-svc:focus-visible { outline:2px solid currentColor; outline-offset:2px; border-radius:6px; }
     .hero-svc-icon {
-      flex-shrink:0; width:44px; height:44px;
-      border-radius:var(--radius-md);
+      flex-shrink:0; width:28px; height:28px;
       display:flex; align-items:center; justify-content:center;
     }
+    .hero-svc-icon .icon { width:24px; height:24px; }
     .hero-svc-text { flex:1 1 auto; min-width:0; }
     .hero-svc-text h3 {
       font-family:'Playfair Display',serif;
@@ -396,23 +396,24 @@
       font-size:.82rem; color:var(--text-mid);
       margin:0; line-height:1.5;
     }
-    .hero-svc-arrow { flex-shrink:0; font-size:1.2rem; font-weight:300; }
+    .hero-svc-arrow {
+      flex-shrink:0; font-size:1.2rem; font-weight:300;
+      transition:transform var(--dur-base) cubic-bezier(.4,0,.2,1);
+    }
+    .hero-svc:hover .hero-svc-arrow { transform:translateX(4px); }
 
-    /* Variantes por servicio (palette sage / earth / lava) */
-    .hero-svc-sage { border-color:var(--sage-soft); }
-    .hero-svc-sage .hero-svc-icon { background:var(--sage-pale); color:var(--sage-deep); }
+    /* Variantes por servicio: solo color del icon/título/flecha (sin fondo base, sin borde-caja) */
+    .hero-svc-sage .hero-svc-icon { color:var(--sage-deep); }
     .hero-svc-sage .hero-svc-text h3, .hero-svc-sage .hero-svc-arrow { color:var(--sage-deep); }
-    .hero-svc-sage:hover { border-color:var(--sage-deep); }
+    .hero-svc-sage:hover { background:var(--sage-pale); }
 
-    .hero-svc-earth { border-color:var(--earth-soft); }
-    .hero-svc-earth .hero-svc-icon { background:var(--earth-pale); color:var(--earth-warm); }
+    .hero-svc-earth .hero-svc-icon { color:var(--earth-warm); }
     .hero-svc-earth .hero-svc-text h3, .hero-svc-earth .hero-svc-arrow { color:var(--earth-warm); }
-    .hero-svc-earth:hover { border-color:var(--earth-warm); }
+    .hero-svc-earth:hover { background:var(--earth-pale); }
 
-    .hero-svc-lava { border-color:var(--lava-soft); }
-    .hero-svc-lava .hero-svc-icon { background:var(--lava-pale); color:var(--lava-deep); }
+    .hero-svc-lava .hero-svc-icon { color:var(--lava-deep); }
     .hero-svc-lava .hero-svc-text h3, .hero-svc-lava .hero-svc-arrow { color:var(--lava-deep); }
-    .hero-svc-lava:hover { border-color:var(--lava-deep); }
+    .hero-svc-lava:hover { background:var(--lava-pale); }
 
     /* Visual side — mundo arte + coaching */
     .hero-visual { position:relative; min-width:0; max-width:100%; }
@@ -1212,7 +1213,7 @@
       <div>
         <h1 class="reveal d1" style="color:#7E94BE">Reconecta<br>con lo que te mueve.<br><em style="color:#B9C9DE">A través del arte<br>o de una conversación.</em></h1>
         <!-- Label editorial sutil que orienta las 3 cards (reemplaza el H2 de la sección Servicios eliminada) -->
-        <div class="label sage reveal d2" style="margin-top:28px">Tres formas de acompañarte</div>
+        <div class="label sage reveal d2" style="margin-top:18px">Tres formas de acompañarte</div>
         <!-- 3 cards con gancho: cada una ES el CTA a su servicio. Reemplaza el hero anterior de subtítulo + 2 CTAs genéricos. -->
         <div class="hero-services reveal d3">
           <a href="https://calendly.com/andreamunizb/30min" class="hero-svc hero-svc-sage" target="_blank" rel="noopener">
