@@ -1063,7 +1063,8 @@
       .coaching-steps { grid-template-columns:1fr 1fr; }
       .testimonios-grid { grid-template-columns:1fr; }
       .footer-grid { grid-template-columns:1fr; gap:28px; }
-      .hero-visual { order:-1; max-width:340px; margin:0 auto; }
+      /* Mobile: imagen DESPUÉS del texto para que el fold muestre H1 + CTA primero */
+      .hero-visual { max-width:340px; margin:0 auto; }
       .section { padding:64px 0; }
     }
     @media(max-width:720px) {
