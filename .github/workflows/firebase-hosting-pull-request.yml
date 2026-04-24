@@ -1,7 +1,7 @@
 name: Preview Firebase Hosting (PR)
 
 # Se dispara en cada pull request → deploy a un canal de preview temporal
-# Con URL única por PR, caduca sola a los 7 días
+# con URL única por PR, caduca sola a los 7 días.
 on: pull_request
 
 permissions:
@@ -11,16 +11,63 @@ permissions:
 
 jobs:
   build_and_preview:
+    # Sólo corremos en PRs del mismo repo (no de forks). Esto es obligatorio
+    # porque el workflow usa secrets con datos privados de Andrea.
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Sync source → public
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generar update-placeholders.config desde Secrets
+        env:
+          FORMSPREE_TALLER_ID:   ${{ secrets.FORMSPREE_TALLER_ID }}
+          FORMSPREE_WORKSHOP_ID: ${{ secrets.FORMSPREE_WORKSHOP_ID }}
+          DOMAIN:                ${{ secrets.DOMAIN }}
+          INSTAGRAM_HANDLE:      ${{ secrets.INSTAGRAM_HANDLE }}
+          WHATSAPP_NUMBER:       ${{ secrets.WHATSAPP_NUMBER }}
+          EMAIL:                 ${{ secrets.EMAIL }}
         run: |
-          if [ -f Andrea_Muniz_Completo_v2.html ]; then
-            cp Andrea_Muniz_Completo_v2.html public/index.html
+          {
+            echo "FORMSPREE_TALLER_ID   = $FORMSPREE_TALLER_ID"
+            echo "FORMSPREE_WORKSHOP_ID = $FORMSPREE_WORKSHOP_ID"
+            echo "DOMAIN                = $DOMAIN"
+            echo "INSTAGRAM_HANDLE      = $INSTAGRAM_HANDLE"
+            echo "WHATSAPP_NUMBER       = $WHATSAPP_NUMBER"
+            echo "EMAIL                 = $EMAIL"
+          } > update-placeholders.config
+
+      - name: Regenerar public/index.html desde template + config
+        run: python update-placeholders.py
+
+      # Guardrail: si el script falla silenciosamente o el template introduce
+      # nuevos placeholders, abortamos antes de publicar datos inválidos.
+      # Excluimos líneas de comentarios JS (//) — la doc HOW-TO del código tiene
+      # el patrón "XXXXXXXX" como ejemplo, no como placeholder real.
+      - name: Verificar que no quedan placeholders en el output
+        run: |
+          set -e
+          ERRORS=0
+          REAL_FORMSPREE=$(grep -nE 'formspree\.io/f/XXXXXXXX' public/index.html | grep -v '//' || true)
+          REAL_WHATSAPP=$(grep -nE 'wa\.me/56900000000' public/index.html | grep -v '//' || true)
+          if [ -n "$REAL_FORMSPREE" ]; then
+            echo "::error::Quedó Formspree sin resolver (XXXXXXXX) en public/index.html:"
+            echo "$REAL_FORMSPREE"
+            ERRORS=1
           fi
+          if [ -n "$REAL_WHATSAPP" ]; then
+            echo "::error::Quedó WhatsApp placeholder (56900000000) en public/index.html:"
+            echo "$REAL_WHATSAPP"
+            ERRORS=1
+          fi
+          if [ "$ERRORS" -ne 0 ]; then
+            exit 1
+          fi
+          echo "✓ Todos los placeholders resueltos"
 
       - name: Deploy preview to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

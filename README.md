@@ -33,45 +33,66 @@ Sitio web estático (single-page) de **Andrea Muñiz Berguecio** — artista pl�
 
 ## Desarrollo
 
-No hay build step. Edita directamente `Andrea_Muniz_Completo_v2.html` y luego copia a `public/index.html` antes del deploy.
+No hay build step. La única fuente de verdad del contenido es `Andrea_Muniz_Completo_v2.html` (template con placeholders). `public/index.html` se **genera** a partir del template más `update-placeholders.config` (valores reales: WhatsApp, email, IDs de Formspree, dominio).
 
-```bash
-cp Andrea_Muniz_Completo_v2.html public/index.html
-```
+### Preview local
 
-Para servirlo localmente:
-
-```bash
-npx serve public
-# o
-python -m http.server 8000 -d public
-```
-
-## Conectar servicios externos
-
-Los dos formularios (postulación al taller y inscripción al workshop) apuntan a `https://formspree.io/f/XXXXXXXX` como placeholder.
-
-1. Edita `update-placeholders.config` con los datos reales:
-   - IDs de Formspree de cada formulario
-   - Dominio, handle de Instagram, número WhatsApp, email
-2. Corre el script:
+1. Corre el script una vez — si no existe `update-placeholders.config` te crea un template:
    ```bash
    python update-placeholders.py
    ```
-3. Se genera un `index.html` con todo inyectado. Cópialo a `public/` y deploya.
+2. Editá `update-placeholders.config` con los valores reales (IDs de Formspree, dominio, WhatsApp, email) y volvé a correr:
+   ```bash
+   python update-placeholders.py
+   ```
+3. Servilo:
+   ```bash
+   npx serve public
+   # o
+   python -m http.server 8000 -d public
+   ```
+
+> `update-placeholders.config` está en `.gitignore` — tiene datos privados de Andrea (teléfono, email).
+
+## Conectar servicios externos
+
+Los dos formularios (postulación al taller y inscripción al workshop) apuntan a `https://formspree.io/f/XXXXXXXX` como placeholder. El script los reemplaza con los IDs reales. También reemplaza dominio, handle de Instagram, número WhatsApp y email.
 
 Detalle completo en `Guia_Despliegue_Andrea_Muniz.docx` (7 pasos guiados).
 
 ## Deploy a Firebase Hosting
 
-Requiere [Firebase CLI](https://firebase.google.com/docs/cli) instalado.
+### Automático (recomendado)
+
+Cada `git push` a `main` dispara GitHub Actions que:
+
+1. Genera `update-placeholders.config` desde los **GitHub Secrets** del repo.
+2. Corre `python update-placeholders.py` → regenera `public/index.html`.
+3. Valida que no queden placeholders sin resolver (Formspree `XXXXXXXX`, WhatsApp `56900000000`).
+4. Publica a Firebase Hosting en el canal `live`.
+
+**Secrets requeridos** (Settings → Secrets and variables → Actions):
+
+| Secret | Valor actual |
+|---|---|
+| `FORMSPREE_TALLER_ID` | ID del form de postulación al taller |
+| `FORMSPREE_WORKSHOP_ID` | ID del form de inscripción al workshop |
+| `DOMAIN` | `andreamuniz.cl` (sin `https://`) |
+| `INSTAGRAM_HANDLE` | `andreamuniz` (sin `@`) |
+| `WHATSAPP_NUMBER` | Ej `56985028131` — solo dígitos, con código país |
+| `EMAIL` | Email de contacto de Andrea |
+| `FIREBASE_SERVICE_ACCOUNT_ANDREA_MUNIZ_LANDING` | JSON del service account de Firebase |
+
+PRs en el mismo repo disparan un preview temporal (URL única, expira a los 7 días).
+
+### Manual (emergencia)
+
+Requiere [Firebase CLI](https://firebase.google.com/docs/cli) y `update-placeholders.config` local.
 
 ```bash
-# Primera vez
 firebase login
-firebase use TU-PROJECT-ID
-
-# Cada deploy
+firebase use andrea-muniz-landing
+python update-placeholders.py   # regenera public/index.html
 firebase deploy --only hosting
 ```
 
