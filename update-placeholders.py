@@ -98,8 +98,11 @@ REPLACEMENTS_PATTERN = [
     (r"https://andreamuniz\.cl", "https://{DOMAIN}"),
     (r"andreamuniz\.cl", "{DOMAIN}"),
     # -- Instagram --
-    (r"https://instagram\.com/andreamuniz", "https://instagram.com/{INSTAGRAM_HANDLE}"),
-    (r"@andreamuniz\b", "@{INSTAGRAM_HANDLE}"),
+    # NOTA: la URL del perfil real es instagram.com/andreamuniz.cl pero el display
+    # visible dice "@andreamuniz" (sin .cl) para no confundir visualmente con la URL
+    # del sitio (también andreamuniz.cl). Por eso el href está hardcodeado en el
+    # template y NO usamos el secret INSTAGRAM_HANDLE para reemplazar.
+    # (Si en el futuro Andrea cambia su handle, actualizar el template directo.)
     # -- WhatsApp --
     (r"https://wa\.me/56900000000", "https://wa.me/{WHATSAPP_NUMBER}"),
     # -- Email --

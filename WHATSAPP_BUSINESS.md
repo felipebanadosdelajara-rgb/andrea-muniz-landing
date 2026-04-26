@@ -118,7 +118,7 @@ Postulación: andreamuniz.cl/#taller
 
 ```
 ¡Gracias por escribirme! Te respondo personalmente en menos de 24 hs.
-Mientras tanto, podés ver mi trabajo en andreamuniz.cl o en Instagram @andreamuniz
+Mientras tanto, podés ver mi trabajo en andreamuniz.cl o en Instagram @andreamuniz.cl
 ```
 
 **Cómo se usan**: en cualquier chat, escribís `/precios` y se autocompleta el texto entero.
