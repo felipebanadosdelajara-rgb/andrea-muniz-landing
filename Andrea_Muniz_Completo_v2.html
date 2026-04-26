@@ -1039,6 +1039,16 @@
       flex-wrap:wrap; gap:12px;
     }
     .footer-bottom p { font-size:.78rem; color:var(--text-mid); margin:0; }
+    /* Crédito sutil al inicio del footer-bottom, izquierda */
+    .footer-credit {
+      font-size:.68rem !important;
+      color:var(--text-soft) !important;
+      margin:0 0 12px 0 !important;
+      text-align:left;
+      letter-spacing:.02em;
+    }
+    .footer-credit a { color:inherit; text-decoration:none; border-bottom:1px dotted currentColor; }
+    .footer-credit a:hover { color:var(--text-mid); }
     .footer-quote {
       font-family:'Playfair Display',serif; font-style:italic;
       font-size:.85rem; color:var(--sage-deep); /* navy — contrasta con el azul claro */
@@ -1831,6 +1841,7 @@
       </div>
     </div>
     <div class="footer-bottom">
+      <p class="footer-credit">Desarrollado por <a href="https://efiktia.cl" target="_blank" rel="noopener">Efiktia.cl</a></p>
       <p>© 2026 Andrea Muñiz Berguecio · Todos los derechos reservados · <a href="#privacidad" style="color:inherit;text-decoration:underline">Política de privacidad</a></p>
       <div class="footer-quote">"El arte sana. El coaching transforma."</div>
     </div>
