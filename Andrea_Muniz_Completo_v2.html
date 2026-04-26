@@ -457,6 +457,10 @@
       position:relative; overflow:hidden;
       background:var(--earth-pale);
     }
+    .sobre-foto picture {
+      /* picture es inline por default — forzamos block para que respete el aspect-ratio del contenedor */
+      display:block; width:100%; height:100%;
+    }
     .sobre-foto img {
       width:100%; height:100%; object-fit:cover; object-position:center top;
       display:block;
