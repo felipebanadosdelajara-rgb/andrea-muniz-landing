@@ -474,8 +474,36 @@
       font-size:.88rem; color:var(--text-dark);
       box-shadow:var(--shadow-md);
     }
-    .sobre-content h2 { margin-bottom:16px; }
+    /* H2 más grande para balancear visualmente con la foto */
+    .sobre-content h2 {
+      font-size:clamp(1.9rem, 3.2vw, 2.6rem);
+      line-height:1.18;
+      margin-bottom:20px;
+    }
     .sobre-content p { margin-bottom:16px; }
+    /* Frase de fuerza editorial — italic ocre */
+    .sobre-quote {
+      font-family:'Playfair Display',serif;
+      font-style:italic;
+      font-size:clamp(1.2rem, 2vw, 1.5rem);
+      color:var(--earth-warm);
+      line-height:1.4;
+      margin:28px 0 !important;
+    }
+    /* Lista de credenciales con check */
+    .sobre-creds {
+      list-style:none; padding:0; margin:24px 0 28px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .sobre-creds li {
+      display:flex; align-items:flex-start; gap:12px;
+      font-size:.92rem; color:var(--text-mid); line-height:1.5;
+    }
+    .sobre-creds li::before {
+      content:'✓'; color:var(--sage-deep);
+      font-weight:700; flex-shrink:0;
+      font-size:1rem; line-height:1.5;
+    }
     .sobre-pills {
       display:flex; flex-wrap:wrap; gap:10px; margin:28px 0;
     }
@@ -1280,8 +1308,14 @@
         <div class="label earth reveal">Sobre mí</div>
         <h2 class="reveal d1">Una artista que<br>encontró en el coaching<br><em>otro lenguaje</em></h2>
         <p class="reveal d2">Diseñadora y artista plástica. En 2025 completé un Diplomado en Coaching y hoy combino ambas prácticas en un mismo espacio: para ayudarte a decidir, reconectar con tu creatividad, o ambas.</p>
+        <p class="sobre-quote reveal d3">"El arte sana. El coaching transforma."</p>
+        <ul class="sobre-creds reveal d3">
+          <li>Diplomada en Coaching · 2025</li>
+          <li>Pintura onírica y escultura efímera</li>
+          <li>Casa Taller activa desde 2024</li>
+        </ul>
         <!-- MEJORA: pills reducidas a 3 ejes principales -->
-        <div class="sobre-pills reveal d3">
+        <div class="sobre-pills reveal d4">
           <span class="pill sage">
             <svg class="icon icon-xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="7.5" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="16.5" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="15" r="1" fill="currentColor" stroke="none"/><path d="M12 21c-1.5 0-2-1.2-1.3-2.2.7-1 .1-2.3-.9-2.3H8"/></svg>
             Artes plásticas
