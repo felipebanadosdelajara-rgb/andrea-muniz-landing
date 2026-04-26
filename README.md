@@ -41,7 +41,7 @@ No hay build step. La única fuente de verdad del contenido es `Andrea_Muniz_Com
    ```bash
    python update-placeholders.py
    ```
-2. Editá `update-placeholders.config` con los valores reales (IDs de Formspree, dominio, WhatsApp, email) y volvé a correr:
+2. Edita `update-placeholders.config` con los valores reales (IDs de Formspree, dominio, WhatsApp, email) y vuelve a correr:
    ```bash
    python update-placeholders.py
    ```

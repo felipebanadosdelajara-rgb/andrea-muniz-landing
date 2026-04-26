@@ -7,7 +7,7 @@ Cada paso con texto exacto a pegar donde corresponde.
 
 ## Paso 0 · Antes de empezar
 
-Asegurate de tener:
+Asegúrate de tener:
 
 - Celu con WhatsApp ya instalado en el número que figura en la landing (`+56 9 8502 8131`)
 - Logo o foto de perfil ya elegida (puede ser la misma foto retrato de Andrea)
@@ -19,11 +19,11 @@ Asegurate de tener:
 
 ## Paso 1 · Instalar WhatsApp Business
 
-1. Abrí Play Store (Android) o App Store (iPhone) en el celu
-2. Buscá "WhatsApp Business"
-3. Instalá la app oficial (icono verde con W y maletín, de "WhatsApp LLC")
-4. Abrila → te pregunta si querés migrar desde WhatsApp normal → **Aceptar**
-5. Confirmá el número (+56 9 8502 8131) → te llega SMS con código → ingresarlo
+1. Abre Play Store (Android) o App Store (iPhone) en el celu
+2. Busca "WhatsApp Business"
+3. Instala la app oficial (icono verde con W y maletín, de "WhatsApp LLC")
+4. Ábrela → te pregunta si quieres migrar desde WhatsApp normal → **Aceptar**
+5. Confirma el número (+56 9 8502 8131) → te llega SMS con código → ingresarlo
 6. Cuando termine la migración, **WhatsApp normal queda desinstalado automáticamente** y todos los chats están en Business
 
 ---
@@ -98,7 +98,7 @@ Más info: andreamuniz.cl
 Para agendar tu primera sesión de coaching gratis (40 min vía Google Meet):
 https://calendly.com/andreamunizb/30min
 
-Elegís el horario que te acomode y te llega el link de la videollamada por mail.
+Eliges el horario que te acomode y te llega el link de la videollamada por mail.
 ```
 
 ### Atajo: `/taller`
@@ -118,10 +118,10 @@ Postulación: andreamuniz.cl/#taller
 
 ```
 ¡Gracias por escribirme! Te respondo personalmente en menos de 24 hs.
-Mientras tanto, podés ver mi trabajo en andreamuniz.cl o en Instagram @andreamuniz.cl
+Mientras tanto, puedes ver mi trabajo en andreamuniz.cl o en Instagram @andreamuniz.cl
 ```
 
-**Cómo se usan**: en cualquier chat, escribís `/precios` y se autocompleta el texto entero.
+**Cómo se usan**: en cualquier chat, escribes `/precios` y se autocompleta el texto entero.
 
 ---
 

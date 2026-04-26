@@ -32,7 +32,7 @@ Cuando se confirma la fecha de un workshop "próximamente", se saca del `<detail
 
 ### 1. Editar un workshop existente
 
-Buscá en el HTML el `<article class="ws-card ...">` del workshop que querés editar. Los campos principales:
+Busca en el HTML el `<article class="ws-card ...">` del workshop que quieres editar. Los campos principales:
 
 ```html
 <!-- Badge (arriba a la derecha): "Agotado" / "Cupos disponibles" / "Próximamente" -->
@@ -62,11 +62,11 @@ Buscá en el HTML el `<article class="ws-card ...">` del workshop que querés ed
 <p class="ws-desc">Un sábado por la noche, una actividad con tu pareja...</p>
 ```
 
-Cambiá solo el **texto entre los tags**, no las clases ni los `<svg>`.
+Cambia solo el **texto entre los tags**, no las clases ni los `<svg>`.
 
 ### 2. Marcar un workshop como AGOTADO
 
-Reemplazá el bloque del badge:
+Reemplaza el bloque del badge:
 
 ```html
 <!-- ANTES (cupos disponibles): -->
@@ -93,7 +93,7 @@ Reemplazá el bloque del badge:
 
 ### 4. Agregar un workshop nuevo CON fecha confirmada
 
-Copiá esta plantilla dentro de `<div class="ws-calendar reveal">`, **antes** de `<!-- Workshops sin fecha confirmada -->`:
+Copia esta plantilla dentro de `<div class="ws-calendar reveal">`, **antes** de `<!-- Workshops sin fecha confirmada -->`:
 
 ```html
 <article class="ws-card ws-card-featured">
@@ -138,7 +138,7 @@ Copiá esta plantilla dentro de `<div class="ws-calendar reveal">`, **antes** de
   - `Creatividad y Decisiones` → `Creatividad%20y%20Decisiones`
   - `Arte para Sanar` → `Arte%20para%20Sanar`
   - (Los espacios son `%20`. Acentos y ñ se escapan también: `ñ` → `%C3%B1`, `á` → `%C3%A1`)
-  - Si tenés dudas, usá [urlencoder.org](https://www.urlencoder.org/) — pegás el texto y te da el escape.
+  - Si tienes dudas, usa [urlencoder.org](https://www.urlencoder.org/) — pegas el texto y te da el escape.
 
 ### 5. Agregar un workshop SIN fecha confirmada (próximamente)
 
@@ -160,14 +160,14 @@ Mismo HTML que el caso 4, pero:
    <div class="ws-day">—</div>
    <div class="ws-year">2026</div>
    ```
-5. **Pegalo dentro** del `<details class="detail-toggle lava">...</details>` (bajo "Ver próximas fechas")
+5. **Pégalo dentro** del `<details class="detail-toggle lava">...</details>` (bajo "Ver próximas fechas")
 
 ### 6. Mover un workshop de "próximamente" a visible (confirmar fecha)
 
 Cuando Andrea confirma la fecha de un workshop que estaba colapsado:
 
-1. Cortá todo el `<article class="ws-card ws-card-soon">...</article>` de dentro del `<details>`
-2. Pegalo **antes** del `<details>` (dentro de `<div class="ws-calendar reveal">`)
+1. Corta todo el `<article class="ws-card ws-card-soon">...</article>` de dentro del `<details>`
+2. Pégalo **antes** del `<details>` (dentro de `<div class="ws-calendar reveal">`)
 3. Cambiar `ws-card-soon` por `ws-card-featured`
 4. Cambiar el badge `ws-badge-soon` / "Próximamente" por `ws-badge-open` / "Cupos abiertos" (o agotado, según corresponda)
 5. Sacar `ws-date-muted` de la `ws-date-block`
@@ -176,7 +176,7 @@ Cuando Andrea confirma la fecha de un workshop que estaba colapsado:
 
 ### 7. Eliminar un workshop pasado
 
-Borrá todo el bloque `<article class="ws-card ...">...</article>` (incluyendo los tags). Si era el único workshop visible y solo quedaban "próximamente", la sección sigue funcionando bien — pero revisá que el `<details>` siga teniendo contenido adentro.
+Borra todo el bloque `<article class="ws-card ...">...</article>` (incluyendo los tags). Si era el único workshop visible y solo quedaban "próximamente", la sección sigue funcionando bien — pero revisá que el `<details>` siga teniendo contenido adentro.
 
 ---
 
@@ -203,7 +203,7 @@ Borrá todo el bloque `<article class="ws-card ...">...</article>` (incluyendo l
 ## Troubleshooting
 
 **El deploy falla con "Quedó Formspree sin resolver" o "Quedó WhatsApp placeholder":**
-Introdujiste literalmente `XXXXXXXX` o `56900000000` en un lugar nuevo. Esos placeholders solo deben aparecer en los lugares que el script ya sabe reemplazar (los `wa.me/...` existentes). Revisá el diff y sacá el placeholder.
+Introdujiste literalmente `XXXXXXXX` o `56900000000` en un lugar nuevo. Esos placeholders solo deben aparecer en los lugares que el script ya sabe reemplazar (los `wa.me/...` existentes). Revisá el diff y saca el placeholder.
 
 **El workshop no aparece en el sitio pero el deploy dijo "Success":**
 1. Hard refresh (Ctrl+Shift+R) en el browser
@@ -211,7 +211,7 @@ Introdujiste literalmente `XXXXXXXX` o `56900000000` en un lugar nuevo. Esos pla
 3. Si editaste ambos, al próximo deploy el template sobrescribe al public
 
 **El workshop aparece pero roto visualmente:**
-Probablemente falta cerrar un `<div>` o `<article>`. Abrí el HTML en un editor con indentación automática y mirá si los tags te balancean.
+Probablemente falta cerrar un `<div>` o `<article>`. Abre el HTML en un editor con indentación automática y mira si los tags te balancean.
 
 **El link de WhatsApp no funciona o falta el número:**
 El número real (`56985028131`) se inyecta solo al deployar via GitHub Secrets. Si lo ves roto en tu preview local es porque no corriste `python update-placeholders.py` antes.
@@ -220,4 +220,4 @@ El número real (`56985028131`) se inyecta solo al deployar via GitHub Secrets. 
 
 ## Si necesitás hacer algo que no está acá
 
-Pegame el cambio que querés hacer y te digo si es manejable con esta guía o si vale el salto a Opción 2 (JSON + build script) o Opción 3 (CMS).
+Pégame el cambio que quieres hacer y te digo si es manejable con esta guía o si vale el salto a Opción 2 (JSON + build script) o Opción 3 (CMS).
