@@ -415,6 +415,34 @@
     .hero-svc-lava .hero-svc-text h3, .hero-svc-lava .hero-svc-arrow { color:var(--lava-deep); }
     .hero-svc-lava:hover { background:var(--lava-pale); }
 
+    /* Variante "featured": card destacada para el servicio prioritario (coaching).
+       Persistente fondo sage-pale, padding generoso, esquina redondeada y separada
+       del resto. Las cards no destacadas mantienen el estilo lista editorial. */
+    .hero-svc-featured {
+      background:var(--sage-pale);
+      border-bottom:none;
+      border-radius:14px;
+      padding:22px 18px;
+      margin-bottom:14px;
+      box-shadow:var(--shadow-sm);
+    }
+    .hero-svc-featured:hover { background:var(--sage-pale); padding-left:26px; }
+    .hero-svc-featured .hero-svc-text h3 { font-size:1.28rem; }
+    .hero-svc-featured .hero-svc-text p { font-size:.9rem; color:var(--text-deep); }
+    .hero-svc-featured .hero-svc-arrow { font-size:1.4rem; font-weight:400; }
+    .hero-svc-badge {
+      display:inline-block;
+      font-family:'Inter',system-ui,sans-serif;
+      font-size:.66rem; font-weight:600; letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--sage-deep);
+      background:#fff;
+      padding:3px 10px;
+      border-radius:999px;
+      margin-bottom:6px;
+      border:1px solid var(--sage-deep);
+    }
+
     /* Visual side — mundo arte + coaching */
     .hero-visual { position:relative; min-width:0; max-width:100%; }
     .hero-mundo {
@@ -1269,8 +1297,8 @@
     </a>
     <ul class="nav-links" id="nav-links">
       <li><a href="#sobre">Sobre mí</a></li>
-      <li><a href="#taller">Casa Taller</a></li>
       <li><a href="#coaching">Sesiones de Coaching</a></li>
+      <li><a href="#taller">Casa Taller</a></li>
       <li><a href="#workshop">Workshops Vivenciales</a></li>
     </ul>
     <!-- MEJORA A11Y: aria-expanded + aria-controls -->
@@ -1292,13 +1320,14 @@
         <div class="label sage reveal d2" style="margin-top:18px">Tres formas de acompañarte</div>
         <!-- 3 cards con gancho: cada una ES el CTA a su servicio. Reemplaza el hero anterior de subtítulo + 2 CTAs genéricos. -->
         <div class="hero-services reveal d3">
-          <a href="#coaching" class="hero-svc hero-svc-sage">
+          <a href="#coaching" class="hero-svc hero-svc-sage hero-svc-featured">
             <div class="hero-svc-icon" aria-hidden="true">
               <svg class="icon icon-md" viewBox="0 0 24 24"><path d="M20 15a3 3 0 0 1-3 3H9l-5 4V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v9z"/></svg>
             </div>
             <div class="hero-svc-text">
+              <span class="hero-svc-badge">Servicio destacado</span>
               <h3>Coaching online</h3>
-              <p>La primera sesión es gratis</p>
+              <p>La primera sesión es <strong>gratis</strong></p>
             </div>
             <span class="hero-svc-arrow" aria-hidden="true">→</span>
           </a>
@@ -1384,12 +1413,116 @@
 
 <hr class="divider">
 
+<!-- ══ COACHING ══ -->
+<section class="section section-sage" id="coaching">
+  <div class="container">
+    <div class="coaching-inner">
+      <div class="label sage reveal" style="justify-content:center">Eje 1 · Coaching online</div>
+      <h2 class="reveal d1">Un espacio para<br><em>escucharte de verdad</em></h2>
+      <p class="reveal d2">Sesiones individuales online de 40 minutos donde tú hablas y yo te acompaño. No hay respuestas predefinidas, solo preguntas que te ayudan a encontrar las tuyas.</p>
+
+      <!-- MEJORA: cards + tabla comparativa horizontal (features alineadas) -->
+      <!-- Bloque editorial: acompañamiento personal (reemplaza las 3 cards anteriores) -->
+      <div class="coaching-statement reveal d3">
+        <div class="coaching-statement-icon" aria-hidden="true">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-8 11-8 11h-2z"/></svg>
+        </div>
+        <div class="coaching-statement-text">
+          <h4>Acompañamiento personal</h4>
+          <p>Para momentos de cambio, decisiones difíciles o simplemente cuando quieres caminar diferente.</p>
+        </div>
+      </div>
+
+      <!-- Tabla comparativa de formatos (colapsada por default — P3-light) -->
+      <details class="detail-toggle sage reveal d4" style="margin:32px auto 0">
+        <summary>Ver los 3 formatos en detalle</summary>
+        <div class="coaching-compare" role="region" aria-label="Comparativa de sesiones de coaching">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">&nbsp;</th>
+              <th scope="col">
+                <span class="th-icon">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                  Sesión única
+                </span>
+              </th>
+              <th scope="col">
+                <span class="th-icon">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  Proceso 4 sesiones
+                </span>
+              </th>
+              <th scope="col">
+                <span class="th-icon">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-8 11-8 11h-2z"/></svg>
+                  Acompañamiento
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Duración</th>
+              <td>1 sesión · 40 min</td>
+              <td>4 sesiones · 40 min c/u</td>
+              <td>Mensual · a tu ritmo</td>
+            </tr>
+            <tr>
+              <th scope="row">Para quién es</th>
+              <td>Una pregunta concreta que ordenar.</td>
+              <td>Un proceso con objetivo claro.</td>
+              <td>Etapas largas de cambio.</td>
+            </tr>
+            <tr>
+              <th scope="row">Formato</th>
+              <td>Online · videollamada</td>
+              <td>Online · videollamada</td>
+              <td>Online · cadencia flexible</td>
+            </tr>
+            <tr>
+              <th scope="row">Inversión</th>
+              <td><strong style="color:var(--sage-deep)">Gratis</strong><br><span style="font-size:.75rem;color:var(--text-soft)">primera sesión de contacto</span></td>
+              <td>$70.000 · 4 sesiones pagadas por adelantado</td>
+              <td>A conversar</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </details>
+
+      <!-- MEJORA: primera sesión gratis + proceso de 4 sesiones -->
+      <div class="coaching-price-row reveal d4" id="agenda">
+        <div class="coaching-price-main">
+          <div class="val">Gratis</div>
+          <div class="sub">tu primera sesión · 40 minutos · Lunes a Jueves</div>
+        </div>
+        <p class="coaching-price-note">Si deciden continuar juntas, el proceso completo es de <strong style="color:var(--sage-deep)">4 sesiones por $70.000</strong>, pagadas por adelantado.</p>
+      </div>
+
+      <!-- CTA primario: Calendly (auto-agenda + Google Meet) · Secundario: WhatsApp para preguntas -->
+      <div class="coaching-cta-row reveal">
+        <a href="https://calendly.com/andreamunizb/30min" class="btn btn-primary" target="_blank" rel="noopener">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Agendar mi primera sesión gratis
+        </a>
+        <a href="https://wa.me/56900000000?text=Hola%20Andrea%2C%20tengo%20una%20pregunta%20antes%20de%20agendar%20mi%20primera%20sesi%C3%B3n%20de%20coaching.%20Te%20escribo%20desde%20andreamuniz.cl" class="btn btn-ghost" target="_blank" rel="noopener">Tengo una pregunta antes de agendar</a>
+      </div>
+
+      <p class="reveal" style="font-size:.82rem;color:var(--text-soft);text-align:center;margin-top:16px">Elegí el horario que te acomode · Recibís el link de Google Meet por mail al confirmar.</p>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
 <!-- ══ TALLER ══ -->
 <section class="section section-earth" id="taller">
   <div class="container">
     <div class="taller-grid">
       <div>
-        <div class="label earth reveal">Eje 1 · Taller presencial</div>
+        <div class="label earth reveal">Eje 2 · Taller presencial</div>
         <h2 class="reveal d1" style="font-size:clamp(1.6rem,3.5vw,2.4rem)">Casa Taller<br><em>Pedro de Valdivia Norte</em></h2>
         <p class="reveal d2">Un regalo en medio de la ciudad, de paz y naturaleza, donde aprendemos a crear esculturas con materiales livianos. En grupos pequeños y seleccionados, sin experiencia previa. Trabajaremos de forma individual.</p>
         <!-- MEJORA: taller-features con SVGs (home / users / calendar / bricks) -->
@@ -1510,110 +1643,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- ══ COACHING ══ -->
-<section class="section section-sage" id="coaching">
-  <div class="container">
-    <div class="coaching-inner">
-      <div class="label sage reveal" style="justify-content:center">Eje 2 · Coaching online</div>
-      <h2 class="reveal d1">Un espacio para<br><em>escucharte de verdad</em></h2>
-      <p class="reveal d2">Sesiones individuales online de 40 minutos donde tú hablas y yo te acompaño. No hay respuestas predefinidas, solo preguntas que te ayudan a encontrar las tuyas.</p>
-
-      <!-- MEJORA: cards + tabla comparativa horizontal (features alineadas) -->
-      <!-- Bloque editorial: acompañamiento personal (reemplaza las 3 cards anteriores) -->
-      <div class="coaching-statement reveal d3">
-        <div class="coaching-statement-icon" aria-hidden="true">
-          <svg class="icon" viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-8 11-8 11h-2z"/></svg>
-        </div>
-        <div class="coaching-statement-text">
-          <h4>Acompañamiento personal</h4>
-          <p>Para momentos de cambio, decisiones difíciles o simplemente cuando quieres caminar diferente.</p>
-        </div>
-      </div>
-
-      <!-- Tabla comparativa de formatos (colapsada por default — P3-light) -->
-      <details class="detail-toggle sage reveal d4" style="margin:32px auto 0">
-        <summary>Ver los 3 formatos en detalle</summary>
-        <div class="coaching-compare" role="region" aria-label="Comparativa de sesiones de coaching">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">&nbsp;</th>
-              <th scope="col">
-                <span class="th-icon">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-                  Sesión única
-                </span>
-              </th>
-              <th scope="col">
-                <span class="th-icon">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  Proceso 4 sesiones
-                </span>
-              </th>
-              <th scope="col">
-                <span class="th-icon">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-8 11-8 11h-2z"/></svg>
-                  Acompañamiento
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Duración</th>
-              <td>1 sesión · 40 min</td>
-              <td>4 sesiones · 40 min c/u</td>
-              <td>Mensual · a tu ritmo</td>
-            </tr>
-            <tr>
-              <th scope="row">Para quién es</th>
-              <td>Una pregunta concreta que ordenar.</td>
-              <td>Un proceso con objetivo claro.</td>
-              <td>Etapas largas de cambio.</td>
-            </tr>
-            <tr>
-              <th scope="row">Formato</th>
-              <td>Online · videollamada</td>
-              <td>Online · videollamada</td>
-              <td>Online · cadencia flexible</td>
-            </tr>
-            <tr>
-              <th scope="row">Inversión</th>
-              <td><strong style="color:var(--sage-deep)">Gratis</strong><br><span style="font-size:.75rem;color:var(--text-soft)">primera sesión de contacto</span></td>
-              <td>$70.000 · 4 sesiones pagadas por adelantado</td>
-              <td>A conversar</td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-      </details>
-
-      <!-- MEJORA: primera sesión gratis + proceso de 4 sesiones -->
-      <div class="coaching-price-row reveal d4" id="agenda">
-        <div class="coaching-price-main">
-          <div class="val">Gratis</div>
-          <div class="sub">tu primera sesión · 40 minutos · Lunes a Jueves</div>
-        </div>
-        <p class="coaching-price-note">Si deciden continuar juntas, el proceso completo es de <strong style="color:var(--sage-deep)">4 sesiones por $70.000</strong>, pagadas por adelantado.</p>
-      </div>
-
-      <!-- CTA primario: Calendly (auto-agenda + Google Meet) · Secundario: WhatsApp para preguntas -->
-      <div class="coaching-cta-row reveal">
-        <a href="https://calendly.com/andreamunizb/30min" class="btn btn-primary" target="_blank" rel="noopener">
-          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Agendar mi primera sesión gratis
-        </a>
-        <a href="https://wa.me/56900000000?text=Hola%20Andrea%2C%20tengo%20una%20pregunta%20antes%20de%20agendar%20mi%20primera%20sesi%C3%B3n%20de%20coaching.%20Te%20escribo%20desde%20andreamuniz.cl" class="btn btn-ghost" target="_blank" rel="noopener">Tengo una pregunta antes de agendar</a>
-      </div>
-
-      <p class="reveal" style="font-size:.82rem;color:var(--text-soft);text-align:center;margin-top:16px">Elegí el horario que te acomode · Recibís el link de Google Meet por mail al confirmar.</p>
-
     </div>
   </div>
 </section>
