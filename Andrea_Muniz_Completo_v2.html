@@ -891,7 +891,49 @@
       font-size:2.2rem; font-weight:700; color:var(--sage-deep);
     }
     .coaching-price-main .sub { font-size:.8rem; color:var(--text-soft); margin-top:2px; }
-    .coaching-price-note { font-size:.82rem; color:var(--text-mid); max-width:320px; line-height:1.6; }
+    .coaching-price-note { font-size:.82rem; color:var(--text-mid); max-width:340px; line-height:1.7; }
+
+    /* Sello "Gratis" — recuadro rojo coral, mantiene Playfair heredado */
+    .coaching-price-main .val .val-stamp {
+      display:inline-block;
+      background:#C8392A; color:#FFF;
+      padding:6px 28px;
+      border-radius:14px;
+      letter-spacing:.01em;
+      box-shadow:0 6px 18px rgba(200,57,42,.28);
+    }
+
+    /* Patrón genérico de oferta: precio antiguo tachado + precio nuevo + pill promo.
+       Usado en Eje 1 (coaching) y Eje 2 (taller). */
+    .precio-old {
+      text-decoration:line-through;
+      color:var(--text-soft);
+      font-weight:500;
+      margin-right:6px;
+    }
+    .precio-new {
+      color:var(--sage-deep);
+      font-weight:700;
+    }
+    .coaching-price-note .precio-new { font-size:1.05rem; }
+    .precio-promo {
+      display:inline-block;
+      background:#C8392A; color:#FFF;
+      font-family:'Inter',system-ui,sans-serif;
+      font-size:.68rem; font-weight:700;
+      letter-spacing:.08em; text-transform:uppercase;
+      padding:3px 10px;
+      border-radius:999px;
+      margin:0 0 0 8px;
+      vertical-align:middle;
+      white-space:nowrap;
+    }
+    /* Override de tamaño dentro del bloque grande de Casa Taller (donde el padre
+       es Playfair 1.75rem): el precio tachado se ve más chico, el nuevo grande,
+       la pill no hereda el tamaño del val. */
+    .taller-price-val .precio-old { font-size:1.1rem; vertical-align:middle; }
+    .taller-price-val .precio-new { font-size:1.75rem; }
+    .taller-price-val .precio-promo { font-size:.68rem; }
     .coaching-cta-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
     .coaching-steps {
       display:grid; grid-template-columns:repeat(4,1fr);
@@ -1504,10 +1546,10 @@
       <!-- MEJORA: primera sesión gratis + proceso de 4 sesiones -->
       <div class="coaching-price-row reveal d4" id="agenda">
         <div class="coaching-price-main">
-          <div class="val">Gratis</div>
+          <div class="val"><span class="val-stamp">Gratis</span></div>
           <div class="sub">tu primera sesión · 40 minutos · Lunes a Jueves</div>
         </div>
-        <p class="coaching-price-note">Si deciden continuar juntas, el proceso completo es de <strong style="color:var(--sage-deep)">4 sesiones por $70.000</strong>, pagadas por adelantado.</p>
+        <p class="coaching-price-note">Si deciden continuar juntas, el proceso completo es de 4 sesiones por <span class="precio-old">$80.000</span> <strong class="precio-new">$70.000</strong><span class="precio-promo">solo por mayo</span>, pagadas por adelantado.</p>
       </div>
 
       <!-- CTA primario: Calendly (auto-agenda + Google Meet) · Secundario: WhatsApp para preguntas -->
@@ -1578,7 +1620,11 @@
         <!-- MEJORA: decorativo reemplazado por SVG sparkle -->
         <div class="taller-price reveal d4">
           <div>
-            <div class="taller-price-val">$100.000</div>
+            <div class="taller-price-val">
+              <span class="precio-old">$100.000</span>
+              <span class="precio-new">$90.000</span>
+              <span class="precio-promo">solo por mayo</span>
+            </div>
             <div class="taller-price-label">por alumna · mensual · se paga a principio de mes</div>
           </div>
           <span class="cupos-badge" style="background:var(--sage-pale);color:var(--sage-deep);border:1px solid var(--sage-soft)">
