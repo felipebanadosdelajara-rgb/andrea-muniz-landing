@@ -45,6 +45,19 @@ WHATSAPP_NUMBER  = 56900000000
 
 # -- Email de contacto --
 EMAIL = hola@andreamuniz.cl
+
+# -- Tracking (opcionales) --
+# Si están vacíos o no existen, el script ELIMINA el bloque correspondiente
+# del HTML final. Andrea crea estos IDs en sus cuentas de Meta y Google
+# Analytics; mientras tanto, dejarlos vacíos es lo correcto.
+#
+# Meta Pixel ID: número de 15-16 dígitos (Meta Business Suite → Eventos).
+# Ej: 123456789012345
+META_PIXEL_ID =
+#
+# Google Analytics 4 Measurement ID: empieza con "G-".
+# Ej: G-ABC1234567 (Admin → Flujos de datos → Web)
+GA4_MEASUREMENT_ID =
 """
 
 
@@ -88,6 +101,11 @@ def load_config():
         print(f"[!] WHATSAPP_NUMBER debe ser solo dígitos (sin + ni espacios).")
         sys.exit(1)
 
+    # Tracking IDs (opcionales). Si no están seteados, los bloques se eliminan
+    # del HTML final. Default a string vacío para uniformidad.
+    cfg.setdefault("META_PIXEL_ID", "")
+    cfg.setdefault("GA4_MEASUREMENT_ID", "")
+
     return cfg
 
 
@@ -115,6 +133,41 @@ def apply_text_replacements(text, cfg):
     for pattern, template in REPLACEMENTS_PATTERN:
         replacement = template.format(**cfg)
         text = re.sub(pattern, replacement, text)
+    return text
+
+
+def apply_tracking_blocks(text, cfg):
+    """
+    Maneja los bloques opcionales de Pixel y GA4.
+
+    Cada bloque está marcado con comentarios HTML:
+        <!-- META_PIXEL_BEGIN -->...<!-- META_PIXEL_END -->
+        <!-- GA4_BEGIN -->...<!-- GA4_END -->
+
+    Si el secret correspondiente está vacío o sigue con su placeholder,
+    REMOVEMOS el bloque entero. Si está seteado, reemplazamos el placeholder
+    por el valor real.
+    """
+    blocks = [
+        ("META_PIXEL", "META_PIXEL_ID", "__META_PIXEL_ID__"),
+        ("GA4",        "GA4_MEASUREMENT_ID", "__GA4_MEASUREMENT_ID__"),
+    ]
+    for marker, secret_key, placeholder in blocks:
+        value = cfg.get(secret_key, "").strip()
+        is_empty = not value or value == placeholder
+
+        if is_empty:
+            # Eliminar el bloque entero (incluyendo los comentarios)
+            block_re = re.compile(
+                rf"\s*<!--\s*{marker}_BEGIN\s*-->.*?<!--\s*{marker}_END\s*-->\s*",
+                re.DOTALL,
+            )
+            text = block_re.sub("\n", text)
+            print(f"  · Bloque {marker} eliminado (sin {secret_key} configurado)")
+        else:
+            text = text.replace(placeholder, value)
+            print(f"  · Bloque {marker} activo con ID '{value}'")
+
     return text
 
 
@@ -176,7 +229,11 @@ def main():
     print("→ Reemplazando dominio, handles, email y WhatsApp en el cuerpo...")
     content = apply_text_replacements(content, cfg)
 
-    # Paso 3: escribir index.html
+    # Paso 3: bloques de tracking opcionales (Pixel + GA4)
+    print("→ Procesando bloques de tracking (Pixel + GA4)...")
+    content = apply_tracking_blocks(content, cfg)
+
+    # Paso 4: escribir index.html
     OUTPUT.write_text(content, encoding="utf-8")
     print(f"→ Generado {OUTPUT.name} ({OUTPUT.stat().st_size:,} bytes)")
 
@@ -189,6 +246,8 @@ def main():
     print(f"  Email:                {cfg['EMAIL']}")
     print(f"  Formspree taller:     https://formspree.io/f/{cfg['FORMSPREE_TALLER_ID']}")
     print(f"  Formspree workshop:   https://formspree.io/f/{cfg['FORMSPREE_WORKSHOP_ID']}")
+    print(f"  Meta Pixel ID:        {cfg.get('META_PIXEL_ID') or '(no configurado — bloque eliminado)'}")
+    print(f"  GA4 Measurement ID:   {cfg.get('GA4_MEASUREMENT_ID') or '(no configurado — bloque eliminado)'}")
     print()
     print("✓ Listo. Sube `index.html` a Cloudflare Pages / Netlify / Vercel.")
 

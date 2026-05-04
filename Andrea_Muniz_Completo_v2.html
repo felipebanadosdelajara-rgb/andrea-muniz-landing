@@ -1334,6 +1334,41 @@
       .container { padding:0 20px; }
     }
   </style>
+
+  <!-- ══ TRACKING ══ Bloques Pixel + GA4 con marcadores de sección.
+       update-placeholders.py los ELIMINA enteros si el secret correspondiente
+       no está configurado (META_PIXEL_ID o GA4_MEASUREMENT_ID vacíos). -->
+
+  <!-- META_PIXEL_BEGIN -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '__META_PIXEL_ID__');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=__META_PIXEL_ID__&ev=PageView&noscript=1" alt=""/></noscript>
+  <!-- META_PIXEL_END -->
+
+  <!-- GA4_BEGIN -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '__GA4_MEASUREMENT_ID__', { 'anonymize_ip': true });
+  </script>
+  <!-- GA4_END -->
+
+  <!-- CALENDLY_ASSETS — necesarios para el popup widget desde la card de coaching -->
+  <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </head>
 <body>
 
@@ -1540,9 +1575,12 @@
         <p class="coaching-price-note">Si deciden continuar juntas, el proceso completo es de 4 sesiones por <span class="precio-old">$80.000</span> <strong class="precio-new">$70.000</strong><span class="precio-promo">solo por mayo</span>.</p>
       </div>
 
-      <!-- CTA primario: Calendly (auto-agenda + Google Meet) · Secundario: WhatsApp para preguntas -->
+      <!-- CTA primario: Calendly popup (no abandona el sitio · permite capturar
+           el evento de conversión vía window.message). Si Calendly.js no cargó,
+           el href + target="_blank" funcionan como fallback abriendo Calendly
+           en pestaña nueva. -->
       <div class="coaching-cta-row reveal">
-        <a href="https://calendly.com/andreamunizb/30min" class="btn btn-primary" target="_blank" rel="noopener">
+        <a href="https://calendly.com/andreamunizb/30min" class="btn btn-primary" target="_blank" rel="noopener" onclick="if(window.Calendly){Calendly.initPopupWidget({url:this.href});return false;}">
           <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Agendar mi primera sesión gratis
         </a>
@@ -2131,6 +2169,39 @@ document.addEventListener('keydown', function(e){
 });
 var _closeBtn = document.getElementById('frame-close');
 if (_closeBtn) _closeBtn.addEventListener('click', hideFrame);
+</script>
+
+<!-- ══ TRACKING ══ Listener de conversión Calendly.
+     Cuando un visitante reserva una sesión via Calendly popup, este listener
+     captura el evento postMessage `calendly.event_scheduled` y dispara:
+       - Meta Pixel: evento "Schedule" (estándar de Pixel)
+       - GA4: evento "generate_lead" (recomendación oficial de Google para
+         agendamientos / leads cualificados).
+     Si Pixel/GA4 no están instalados (typeof fbq/gtag !== 'function'),
+     el listener no hace nada — degrada silenciosamente. -->
+<script>
+(function(){
+  function isCalendlyEvent(e){
+    return e.data && typeof e.data === 'object' &&
+           typeof e.data.event === 'string' &&
+           e.data.event.indexOf('calendly') === 0;
+  }
+  window.addEventListener('message', function(e){
+    if (!isCalendlyEvent(e)) return;
+    if (e.data.event === 'calendly.event_scheduled') {
+      if (typeof fbq === 'function') {
+        fbq('track', 'Schedule', { content_name: 'primera_sesion_coaching' });
+      }
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          event_category: 'engagement',
+          event_label: 'calendly_first_session_booked',
+          value: 0
+        });
+      }
+    }
+  });
+})();
 </script>
 
 </body>

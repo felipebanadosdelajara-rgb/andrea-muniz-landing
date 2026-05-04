@@ -28,6 +28,10 @@ jobs:
           INSTAGRAM_HANDLE:      ${{ secrets.INSTAGRAM_HANDLE }}
           WHATSAPP_NUMBER:       ${{ secrets.WHATSAPP_NUMBER }}
           EMAIL:                 ${{ secrets.EMAIL }}
+          # Tracking opcionales: si los secrets no existen, las variables
+          # llegan vacías y el script elimina los bloques del HTML final.
+          META_PIXEL_ID:         ${{ secrets.META_PIXEL_ID }}
+          GA4_MEASUREMENT_ID:    ${{ secrets.GA4_MEASUREMENT_ID }}
         run: |
           {
             echo "FORMSPREE_TALLER_ID   = $FORMSPREE_TALLER_ID"
@@ -36,6 +40,8 @@ jobs:
             echo "INSTAGRAM_HANDLE      = $INSTAGRAM_HANDLE"
             echo "WHATSAPP_NUMBER       = $WHATSAPP_NUMBER"
             echo "EMAIL                 = $EMAIL"
+            echo "META_PIXEL_ID         = $META_PIXEL_ID"
+            echo "GA4_MEASUREMENT_ID    = $GA4_MEASUREMENT_ID"
           } > update-placeholders.config
 
       - name: Regenerar public/index.html desde template + config
@@ -51,6 +57,8 @@ jobs:
           ERRORS=0
           REAL_FORMSPREE=$(grep -nE 'formspree\.io/f/XXXXXXXX' public/index.html | grep -v '//' || true)
           REAL_WHATSAPP=$(grep -nE 'wa\.me/56900000000' public/index.html | grep -v '//' || true)
+          REAL_PIXEL=$(grep -nE '__META_PIXEL_ID__' public/index.html | grep -v '//' || true)
+          REAL_GA4=$(grep -nE '__GA4_MEASUREMENT_ID__' public/index.html | grep -v '//' || true)
           if [ -n "$REAL_FORMSPREE" ]; then
             echo "::error::Quedó Formspree sin resolver (XXXXXXXX) en public/index.html:"
             echo "$REAL_FORMSPREE"
@@ -59,6 +67,16 @@ jobs:
           if [ -n "$REAL_WHATSAPP" ]; then
             echo "::error::Quedó WhatsApp placeholder (56900000000) en public/index.html:"
             echo "$REAL_WHATSAPP"
+            ERRORS=1
+          fi
+          if [ -n "$REAL_PIXEL" ]; then
+            echo "::error::Quedó placeholder __META_PIXEL_ID__ sin resolver — el bloque debió haber sido eliminado o reemplazado:"
+            echo "$REAL_PIXEL"
+            ERRORS=1
+          fi
+          if [ -n "$REAL_GA4" ]; then
+            echo "::error::Quedó placeholder __GA4_MEASUREMENT_ID__ sin resolver — el bloque debió haber sido eliminado o reemplazado:"
+            echo "$REAL_GA4"
             ERRORS=1
           fi
           if [ "$ERRORS" -ne 0 ]; then
